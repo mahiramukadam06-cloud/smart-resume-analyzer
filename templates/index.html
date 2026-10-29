@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Analyze Resume — Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <span class="eyebrow-badge">Resume &times; Job Description Match</span>
+    <h1>See how well a resume<br>fits the job — instantly.</h1>
+    <p class="hero-sub">Upload a resume, paste a job description, and get a match score, matched skills, and gaps to fix — powered by TF&#8209;IDF text similarity.</p>
+</section>
+
+<section class="panel">
+    <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data" class="analyze-form">
+        <div class="field-group">
+            <label for="resume">Resume file</label>
+            <div class="file-drop" id="fileDrop">
+                <input type="file" name="resume" id="resume" accept=".pdf,.docx,.txt" required>
+                <div class="file-drop-text">
+                    <strong id="fileName">Choose a PDF, DOCX or TXT file</strong>
+                    <span>or drag and drop it here</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="field-group">
+            <label for="job_description">Job description</label>
+            <textarea name="job_description" id="job_description" rows="9"
+                placeholder="Paste the full job description here — required skills, responsibilities, qualifications..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Analyze Match</button>
+    </form>
+</section>
+
+<section class="how-it-works">
+    <h2>How it works</h2>
+    <div class="steps">
+        <div class="step">
+            <span class="step-num">1</span>
+            <h3>Upload &amp; paste</h3>
+            <p>Add the candidate's resume and the job description you're comparing it against.</p>
+        </div>
+        <div class="step">
+            <span class="step-num">2</span>
+            <h3>Text is analyzed</h3>
+            <p>The system extracts text, detects skills, and compares content using TF-IDF vectors.</p>
+        </div>
+        <div class="step">
+            <span class="step-num">3</span>
+            <h3>Get a score</h3>
+            <p>A match percentage, matched skills, and missing skills are shown instantly.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
