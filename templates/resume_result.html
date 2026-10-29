@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Analysis — Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+
+<section class="result-header">
+    <div>
+        <span class="eyebrow-badge">Resume analysis complete</span>
+        <h1>{{ filename }}</h1>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="btn-ghost">
+        New Analysis
+    </a>
+</section>
+
+
+<section class="score-panel">
+
+    <div class="score-details">
+        <span class="verdict-badge">
+            Resume-Only Analysis
+        </span>
+
+        <p>
+            The system analyzed the skills detected in your resume
+            and identified possible roles related to those skills.
+        </p>
+
+        <div class="mini-stats">
+
+            <div class="mini-stat">
+                <strong>{{ result.word_count }}</strong>
+                <span>Words in resume</span>
+            </div>
+
+            <div class="mini-stat">
+                <strong>{{ result.resume_skills|length }}</strong>
+                <span>Skills detected</span>
+            </div>
+
+            <div class="mini-stat">
+                <strong>{{ result.possible_roles|length }}</strong>
+                <span>Related roles</span>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<section class="skills-grid">
+
+    <div class="skills-card matched">
+
+        <h2>Skills Detected</h2>
+
+        {% if result.resume_skills %}
+
+            <div class="tag-list">
+
+                {% for skill in result.resume_skills %}
+
+                    <span class="tag tag-matched">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-note">
+                No predefined skills were detected in the resume.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="skills-card extra">
+
+        <h2>Possible Relevant Roles</h2>
+
+        {% if result.possible_roles %}
+
+            <div class="role-list">
+
+                {% for role in result.possible_roles %}
+
+                    <div class="role-item">
+
+                        <h3>{{ role.role }}</h3>
+
+                        <p>
+                            Skill overlap:
+                            <strong>
+                                {{ role.match_percentage }}%
+                            </strong>
+                        </p>
+
+                        <div class="tag-list">
+
+                            {% for skill in role.matched_skills %}
+
+                                <span class="tag tag-extra">
+                                    {{ skill }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-note">
+                No related roles could be identified from the
+                detected skills.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<section class="panel">
+
+    <h2>What does this mean?</h2>
+
+    <p>
+        These roles are identified based on the skills detected
+        in your resume and the predefined skill-role mapping used
+        by this system. They are possible relevant roles, not
+        guaranteed job recommendations.
+    </p>
+
+    <p>
+        To compare your resume with a specific job, return to the
+        analysis page and select
+        <strong>"I have a Job Description"</strong>.
+    </p>
+
+</section>
+
+
+<div class="result-actions">
+
+    <a href="{{ url_for('history') }}" class="btn-secondary">
+        View History
+    </a>
+
+    <a href="{{ url_for('index') }}" class="btn-primary">
+        Analyze Another Resume
+    </a>
+
+</div>
+
+{% endblock %}

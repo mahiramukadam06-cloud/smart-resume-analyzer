@@ -1,0 +1,29 @@
+John Carter
+Aspiring Software Developer
+
+SUMMARY
+Final-year Computer Science student with hands-on experience in Python, web
+development, and data analysis. Strong problem-solving skills and a passion
+for building practical software.
+
+SKILLS
+Python, Flask, HTML, CSS, JavaScript, SQL, MySQL, Git, GitHub, Data Structures,
+Algorithms, Machine Learning, Pandas, NumPy, Communication, Teamwork
+
+EDUCATION
+B.Tech in Computer Science, ABC University (2022 - 2026)
+
+PROJECTS
+- Built a student attendance management system using Flask and MySQL.
+- Developed a machine learning model to predict house prices using Pandas
+  and Scikit-learn.
+- Created a personal portfolio website using HTML, CSS, and JavaScript.
+
+EXPERIENCE
+Summer Intern, XYZ Technologies (2025)
+- Assisted in developing REST APIs using Flask.
+- Worked with a small team following Agile practices.
+
+CERTIFICATIONS
+- Python for Data Science (Coursera)
+- Introduction to Machine Learning (NPTEL)

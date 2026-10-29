@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Result — Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+
+<section class="result-header">
+    <div>
+        <span class="eyebrow-badge">Analysis complete</span>
+        <h1>{{ filename }}</h1>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="btn-ghost">
+        New Analysis
+    </a>
+</section>
+
+
+<!-- =========================================================
+     OVERALL MATCH SCORE
+     ========================================================= -->
+
+<section class="score-panel">
+
+    <div
+        class="score-gauge"
+        style="--score: {{ result.match_score }}"
+    >
+        <div class="score-gauge-inner">
+            <span class="score-number">
+                {{ result.match_score }}%
+            </span>
+
+            <span class="score-label">
+                Overall Match
+            </span>
+        </div>
+    </div>
+
+
+    <div class="score-details">
+
+        <span class="verdict-badge verdict-{{ result.verdict|replace(' ', '-')|lower }}">
+            {{ result.verdict }}
+        </span>
+
+        <p>
+            The overall match score combines skill overlap,
+            text similarity, and requirement coverage between
+            the resume and the job description.
+        </p>
+
+
+        <div class="mini-stats">
+
+            <div class="mini-stat">
+                <strong>{{ result.word_count }}</strong>
+                <span>Words in resume</span>
+            </div>
+
+            <div class="mini-stat">
+                <strong>{{ result.matched_skills|length }}</strong>
+                <span>Skills matched</span>
+            </div>
+
+            <div class="mini-stat">
+                <strong>{{ result.missing_skills|length }}</strong>
+                <span>Skills missing</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCORE BREAKDOWN
+     ========================================================= -->
+
+<section class="panel">
+
+    <h2>Score Breakdown</h2>
+
+    <p>
+        The project calculates the overall compatibility score
+        using three measurable components.
+    </p>
+
+
+    <div class="mini-stats">
+
+        <div class="mini-stat">
+            <strong>{{ result.skill_match }}%</strong>
+            <span>Skill Match</span>
+        </div>
+
+        <div class="mini-stat">
+            <strong>{{ result.text_similarity }}%</strong>
+            <span>Text Similarity</span>
+        </div>
+
+        <div class="mini-stat">
+            <strong>{{ result.requirement_coverage }}%</strong>
+            <span>Requirement Coverage</span>
+        </div>
+
+    </div>
+
+
+    <p>
+        <strong>Weights used:</strong>
+        Skill Match 50%,
+        Text Similarity 30%,
+        Requirement Coverage 20%.
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     SKILL COMPARISON
+     ========================================================= -->
+
+<section class="skills-grid">
+
+
+    <!-- Matched Skills -->
+
+    <div class="skills-card matched">
+
+        <h2>Matched Skills</h2>
+
+        {% if result.matched_skills %}
+
+            <div class="tag-list">
+
+                {% for skill in result.matched_skills %}
+
+                    <span class="tag tag-matched">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-note">
+                No overlapping skills were detected.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Missing Skills -->
+
+    <div class="skills-card missing">
+
+        <h2>Missing Skills</h2>
+
+        {% if result.missing_skills %}
+
+            <div class="tag-list">
+
+                {% for skill in result.missing_skills %}
+
+                    <span class="tag tag-missing">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-note">
+                No missing skills detected.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Extra Skills -->
+
+    <div class="skills-card extra">
+
+        <h2>Extra Skills on Resume</h2>
+
+        {% if result.extra_skills %}
+
+            <div class="tag-list">
+
+                {% for skill in result.extra_skills %}
+
+                    <span class="tag tag-extra">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-note">
+                No additional skills beyond the job description.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EXPLANATION
+     ========================================================= -->
+
+<section class="panel">
+
+    <h2>How to interpret the result</h2>
+
+    <p>
+        <strong>Skill Match</strong> measures the percentage of
+        detected job-description skills that are also present
+        in the resume.
+    </p>
+
+    <p>
+        <strong>Text Similarity</strong> uses TF-IDF and Cosine
+        Similarity to measure similarity between the resume
+        and the job description.
+    </p>
+
+    <p>
+        <strong>Requirement Coverage</strong> checks how much
+        vocabulary from the job description is also present
+        in the resume.
+    </p>
+
+    <p>
+        The final score is a
+        <strong>project-defined compatibility metric</strong>.
+        It is not a probability of getting hired.
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     ACTION BUTTONS
+     ========================================================= -->
+
+<div class="result-actions">
+
+    <a
+        href="{{ url_for('history') }}"
+        class="btn-secondary"
+    >
+        View History
+    </a>
+
+    <a
+        href="{{ url_for('index') }}"
+        class="btn-primary"
+    >
+        Analyze Another Resume
+    </a>
+
+</div>
+
+{% endblock %}
